@@ -46,3 +46,6 @@ host='localhost:8889'
 
 # USED FOR TESTING:
 ./clio -u http://$host push action eosio addaction '{"action":"migrtrx","contract":"fio.reqobt","actor":"eosio"}' --permission eosio
+
+# fio.escrow testing:
+./clio -u http://$host push action eosio addaction '{"action":"hello","contract":"fio.escrow","actor":"eosio"}' --permission eosio
