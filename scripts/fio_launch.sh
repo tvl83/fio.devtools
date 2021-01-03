@@ -42,7 +42,8 @@ fi
 if [ $mChoice == 2 ]; then
     echo Updating Current Base Contracts
     cd ../fio.devtools/bin/baseContract/2.0.x/
-    git clone http://github.com/fioprotocol/fio.contracts -b release/2.0.x
+    # ESCROW POINTED TO CUSTOM REPO
+    git clone http://github.com/tvl83/fio.contracts
     cd fio.contracts/
     ./build.sh
     cp ./contracts/fio.fee/fio.fee.abi ./build/contracts/fio.fee/fio.fee.abi
@@ -57,6 +58,7 @@ if [ $mChoice == 2 ]; then
     cp ./contracts/fio.fee/fio.fee.abi ./build/contracts/fio.fee/fio.fee.abi
     cp ./contracts/fio.address/fio.address.abi ./build/contracts/fio.address/fio.address.abi
     cp ./contracts/fio.request.obt/fio.request.obt.abi ./build/contracts/fio.request.obt/fio.request.obt.abi
+    cp ./contracts/fio.escrow/fio.escrow.abi ./build/contracts/fio.escrow/fio.escrow.abi
     echo COMPLETE - READY TO LAUNCH
     exit -1
 fi
@@ -119,10 +121,18 @@ if [ $mChoice == 1 ]; then
             echo 'No wasm file found at $PWD/build/contracts/fio.treasury'
     fi
 
+    # ESCROW
+    # DEFINE NAME PATH
+    if [ -f ../fio.contracts/build/contracts/fio.escrow/fio.escrow.wasm ]; then
+        fio_escrow_name_path="$oldpath/../../fio.contracts/build/contracts/fio.escrow"
+    else
+        echo 'No wasm file found at $PWD/build/contracts/fio.escrow'
+    fi
+
     if [ -f ../fio.contracts/build/contracts/eosio.wrap/eosio.wrap.wasm ]; then
-               eosio_wrap_name_path="$oldpath/../../fio.contracts/build/contracts/eosio.wrap"
-            else
-                echo 'No wasm file found at $PWD/build/contracts/eosio.wrap'
+       eosio_wrap_name_path="$oldpath/../../fio.contracts/build/contracts/eosio.wrap"
+    else
+        echo 'No wasm file found at $PWD/build/contracts/eosio.wrap'
     fi
 
     #FIO Base Directory Check
@@ -180,6 +190,14 @@ if [ $mChoice == 1 ]; then
             echo 'No wasm file found at $PWD/build/contracts/fio.treasury'
     fi
 
+    # ESCROW
+    # DEFINE BASE PATH
+    if [ -f bin/baseContract/2.0.x/fio.contracts/build/contracts/fio.escrow/fio.escrow.wasm ]; then
+               fio_escrow_base_path="$basepath/fio.contracts/build/contracts/fio.escrow"
+            else
+                echo 'No wasm file found at $PWD/build/contracts/fio.escrow'
+    fi
+
     if [ -f bin/baseContract/2.0.x/fio.contracts/build/contracts/eosio.wrap/eosio.wrap.wasm ]; then
                eosio_wrap_base_path="$basepath/fio.contracts/build/contracts/eosio.wrap"
             else
@@ -206,6 +224,9 @@ if [ $mChoice == 1 ]; then
     export fio_reqobt_base_path
     export fio_tpid_base_path
     export fio_treasury_base_path
+    # ESCROW
+    # EXPORT
+    export fio_escrow_base_path
     export eosio_wrap_base_path
     export vChoice
 
@@ -316,7 +337,7 @@ elif [ $mChoice == 4 ]; then
     read -p "IP address for nodeos P2p [$(ip route |grep default |head -1 |cut -d' ' -f9)]: " nodeos_dev_p2p
     [ -z "${nodeos_dev_p2p}" ] && nodeos_dev_p2p=$(ip route |grep default |head -1 |cut -d' ' -f9)
     read -p "Port for nodeos P2p [8889]:" nodeos_dev_port
-    [ -z "${nodeos_dev_port}"] && nodeos_dev_port=8889
+    [ -z "${nodeos_dev_port}" ] && nodeos_dev_port=8889
     $oldpath/launch/producers/19_start_docker_compose.sh "${nodeos_dev_p2p}" "${nodeos_dev_port}"
 
 elif [ $mChoice == 6 ]; then
@@ -327,7 +348,7 @@ elif [ $mChoice == 6 ]; then
     read -p "IP address for nodeos P2p [$(ip route |grep default |head -1 |cut -d' ' -f9)]: " nodeos_dev_p2p
     [ -z "${nodeos_dev_p2p}" ] && nodeos_dev_p2p=$(ip route |grep default |head -1 |cut -d' ' -f9)
     read -p "Port for nodeos P2p [8889]:" nodeos_dev_port
-    [ -z "${nodeos_dev_port}"] && nodeos_dev_port=8889
+    [ -z "${nodeos_dev_port}" ] && nodeos_dev_port=8889
     $oldpath/launch/history/20_start_docker_compose.sh "${nodeos_dev_p2p}" "${nodeos_dev_port}"
 
 else
