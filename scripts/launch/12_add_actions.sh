@@ -1,11 +1,9 @@
-
 # this script sets all actions not added in the controller.cpp init_database method.
-# we add actions in the controller.cpp that are necessary for the genisis of a test network (all actions used by the bios
-# node at genisis (for creation of accounts, setting of contracts, establishment of currency, transfer of currency, producer registration,
+# we add actions in the controller.cpp that are necessary for the genesis of a test network (all actions used by the bios
+# node at genesis (for creation of accounts, setting of contracts, establishment of currency, transfer of currency, producer registration,
 # producer voting, and other startup needs are added to the controller .
 # and the rest are added here so that we do not have to revision the controller code every time
 # we add a new action to fio.
-
 
 host='localhost:8889'
 

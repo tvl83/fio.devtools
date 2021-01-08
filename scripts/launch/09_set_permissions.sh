@@ -19,6 +19,9 @@
 ./clio -u http://localhost:8879 push action eosio setpriv '["fio.reqobt",1]' -p eosio@active
 #and other contracts.
 ./clio -u http://localhost:8879 set account permission fio.tpid active '{"threshold": 1,"keys": [{"key": "FIO7isxEua78KPVbGzKemH4nj2bWE52gqj8Hkac3tc7jKNvpfWzYS","weight": 1}],"accounts": [{"permission":{"actor":"fio.tpid","permission":"eosio.code"},"weight":1}]}}' 4000000000 owner -p fio.tpid@owner
+#fio.escrow
+./clio -u http://localhost:8879 push action eosio setpriv '["fio.escrow",1]' -p eosio@active
+./clio -u http://localhost:8879 set account permission fio.escrow active '{"threshold": 1,"keys": [{"key": "FIO7isxEua78KPVbGzKemH4nj2bWE52gqj8Hkac3tc7jKNvpfWzYS","weight": 1}],"accounts": [{"permission":{"actor":"fio.escrow","permission":"eosio.code"},"weight":1}]}}' 4000000000 owner -p fio.escrow@owner
 #make the fio.system into a privileged account
 ./clio -u http://localhost:8879 push action eosio setpriv '["fio.tpid",1]' -p eosio@active
 
